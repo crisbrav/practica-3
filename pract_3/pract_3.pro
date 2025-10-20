@@ -5,7 +5,9 @@ CONFIG -= qt
 
 SOURCES += \
         codificador.cpp \
+        decodificador.cpp \
         main.cpp
 
 HEADERS += \
-    codificador.h
+    codificador.h \
+    decodificador.h
