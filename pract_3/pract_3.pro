@@ -6,8 +6,10 @@ CONFIG -= qt
 SOURCES += \
         codificador.cpp \
         decodificador.cpp \
-        main.cpp
+        main.cpp \
+        sistema_bancario.cpp
 
 HEADERS += \
     codificador.h \
-    decodificador.h
+    decodificador.h \
+    sistema_bancario.h
