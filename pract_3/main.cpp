@@ -4,69 +4,105 @@
 
 using namespace std;
 
+// Función mejorada para convertir argumentos
+unsigned long stringAUnsignedLong(const char* str) {
+    try {
+        if (str == NULL || str[0] == '\0') {
+            throw "String vacio o nulo";
+        }
+
+        unsigned long resultado = 0;
+        bool tieneDigitos = false;
+
+        for (int i = 0; str[i] != '\0'; i++) {
+            if (str[i] >= '0' && str[i] <= '9') {
+                resultado = resultado * 10 + (str[i] - '0');
+                tieneDigitos = true;
+
+                // Verificar overflow
+                if (resultado > 1000000) {
+                    throw "Numero demasiado grande";
+                }
+            } else if (str[i] != ' ' && str[i] != '\t') {
+                throw "Caracter no numerico encontrado";
+            }
+        }
+
+        if (!tieneDigitos) {
+            throw "No se encontraron digitos numericos";
+        }
+
+        return resultado;
+    } catch (const char* mensaje) {
+        throw string("Error conversión a numero: ") + mensaje;
+    }
+}
+
 int main(int argc, char* argv[]) {
     try {
+        cout << " SISTEMA DE CODIFICACION/DECODIFICACION " << endl;
+
         if (argc > 1) {
-            if (strcmp(argv[1], "codificar") == 0 && argc == 6) {
-                int semilla, metodo;
-
-                // Convertir parámetros
-                semilla = 0;
-                for (int i = 0; argv[2][i] != '\0'; i++) {
-                    if (argv[2][i] >= '0' && argv[2][i] <= '9') {
-                        semilla = semilla * 10 + (argv[2][i] - '0');
-                    }
+            if (strcmp(argv[1], "codificar") == 0) {
+                if (argc != 6) {
+                    throw "Uso: programa codificar <semilla> <metodo> <entrada> <salida>";
                 }
 
-                metodo = 0;
-                for (int i = 0; argv[3][i] != '\0'; i++) {
-                    if (argv[3][i] >= '0' && argv[3][i] <= '9') {
-                        metodo = metodo * 10 + (argv[3][i] - '0');
-                    }
-                }
+                // CONVERSIÓN CON MANEJO DE EXCEPCIONES
+                unsigned long semilla = stringAUnsignedLong(argv[2]);
+                unsigned long metodoUL = stringAUnsignedLong(argv[3]);
 
-                if (semilla <= 0 || (metodo != 1 && metodo != 2)) {
-                    throw "Parámetros inválidos";
+                if (metodoUL > 2) {
+                    throw "El metodo debe ser 1 o 2";
                 }
+                int metodo = (int)metodoUL;
+
+                cout << "Iniciando codificacion..." << endl;
+                cout << "Parametros: semilla=" << semilla << ", metodo=" << metodo << endl;
 
                 codificarConString(semilla, metodo, argv[4], argv[5]);
 
-            } else if (strcmp(argv[1], "decodificar") == 0 && argc == 6) {
-                int semilla, metodo;
-
-                semilla = 0;
-                for (int i = 0; argv[2][i] != '\0'; i++) {
-                    if (argv[2][i] >= '0' && argv[2][i] <= '9') {
-                        semilla = semilla * 10 + (argv[2][i] - '0');
-                    }
+            } else if (strcmp(argv[1], "decodificar") == 0) {
+                if (argc != 6) {
+                    throw "Uso: programa decodificar <semilla> <metodo> <entrada> <salida>";
                 }
 
-                metodo = 0;
-                for (int i = 0; argv[3][i] != '\0'; i++) {
-                    if (argv[3][i] >= '0' && argv[3][i] <= '9') {
-                        metodo = metodo * 10 + (argv[3][i] - '0');
-                    }
-                }
+                unsigned long semilla = stringAUnsignedLong(argv[2]);
+                unsigned long metodoUL = stringAUnsignedLong(argv[3]);
 
-                if (semilla <= 0 || (metodo != 1 && metodo != 2)) {
-                    throw "Parámetros inválidos";
+                if (metodoUL > 2) {
+                    throw "El metodo debe ser 1 o 2";
                 }
+                int metodo = (int)metodoUL;
+
+                cout << "Iniciando decodificacion..." << endl;
+                cout << "Parametros: semilla=" << semilla << ", metodo=" << metodo << endl;
 
                 decodificarConString(semilla, metodo, argv[4], argv[5]);
 
             } else {
-                cout << "Uso:" << endl;
-                cout << "  Codificar: programa codificar <semilla> <metodo> <entrada> <salida>" << endl;
-                cout << "  Decodificar: programa decodificar <semilla> <metodo> <entrada> <salida>" << endl;
-                cout << "  Método: 1 o 2" << endl;
+                throw string("Comando desconocido: ") + argv[1];
             }
         } else {
+            // Modo interactivo
             sistemaBancario();
         }
+
+        cout << "PROCESO COMPLETADO" << endl;
+
     } catch (const char* mensaje) {
-        cerr << "Error: " << mensaje << endl;
+        cerr << " Error en programa principal: " << mensaje << endl;
+        cerr << "Uso correcto:" << endl;
+        cerr << "  Codificar: programa codificar <semilla> <metodo> <entrada> <salida>" << endl;
+        cerr << "  Decodificar: programa decodificar <semilla> <metodo> <entrada> <salida>" << endl;
+        cerr << "  Sistema bancario: programa (sin argumentos)" << endl;
+        return 1;
+    } catch (const string& mensaje) {
+        cerr << " Error en programa principal: " << mensaje << endl;
+        return 1;
     } catch (...) {
-        cerr << "Error desconocido en el programa principal" << endl;
+        cerr << " Error desconocido en programa principal" << endl;
+        return 1;
     }
 
     return 0;

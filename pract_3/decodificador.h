@@ -5,11 +5,9 @@
 #include <fstream>
 #include <cstring>
 
-using namespace std;
+// Funciones de decodificación
+std::string metodo1Decodificar(const std::string& binario, int n);
+std::string metodo2Decodificar(const std::string& binario, int n);
+void decodificarConString(unsigned long n, int metodo, const std::string& archivoEntrada, const std::string& archivoSalida);
 
-string metodo1Decodificar(const string& binario, int n);
-string metodo2Decodificar(const string& binario, int n);
-void decodificarConString(int n, int metodo, const string& archivoEntrada, const string& archivoSalida);
-
-
-#endif // DECODIFICADOR_H
+#endif

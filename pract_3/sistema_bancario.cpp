@@ -123,7 +123,7 @@ void registrarTransaccion(const char* transaccion) {
     try {
         FILE* archivo = fopen("transacciones.txt", "a");
         if (!archivo) {
-            throw "No se pudo registrar transacción";
+            throw "No se pudo registrar transaccion";
         }
 
         fprintf(archivo, "%s\n", transaccion);
@@ -131,7 +131,7 @@ void registrarTransaccion(const char* transaccion) {
     } catch (const char* mensaje) {
         cerr << "Error: " << mensaje << endl;
     } catch (...) {
-        cerr << "Error desconocido al registrar transacción" << endl;
+        cerr << "Error desconocido al registrar transaccion" << endl;
     }
 }
 
@@ -156,7 +156,7 @@ bool validarAdministrador(const char* clave) {
 }
 
 void menuAdministrador() {
-    cout << "\n=== MODO ADMINISTRADOR ===" << endl;
+    cout << "\nMODO ADMINISTRADOR " << endl;
     int opcion;
 
     do {
@@ -170,7 +170,7 @@ void menuAdministrador() {
 
             if (opcion == 1) {
                 if (numUsuarios < 100) {
-                    cout << "Cédula: ";
+                    cout << "Cedula: ";
                     cin >> usuarios[numUsuarios].cedula;
                     cout << "Clave: ";
                     cin >> usuarios[numUsuarios].clave;
@@ -180,19 +180,19 @@ void menuAdministrador() {
                     guardarUsuarios();
                     cout << "Usuario registrado." << endl;
                 } else {
-                    cout << "Límite de usuarios alcanzado." << endl;
+                    cout << "Limite de usuarios alcanzado." << endl;
                 }
             } else if (opcion == 2) {
-                cout << "\n=== USUARIOS ===" << endl;
+                cout << "\n USUARIOS " << endl;
                 for (int i = 0; i < numUsuarios; i++) {
-                    cout << "Cédula: " << usuarios[i].cedula << ", Saldo: $";
+                    cout << "Cedula: " << usuarios[i].cedula << ", Saldo: $";
                     char saldoStr[20];
                     doubleAString(usuarios[i].saldo, saldoStr, sizeof(saldoStr));
                     cout << saldoStr << endl;
                 }
             }
         } catch (...) {
-            cerr << "Error en el menú de administrador" << endl;
+            cerr << "Error en el menu de administrador" << endl;
             cin.clear();
             while (cin.get() != '\n');
         }
@@ -201,7 +201,7 @@ void menuAdministrador() {
 
 void menuCliente() {
     char cedula[20], clave[20];
-    cout << "Cédula: ";
+    cout << "Cedula: ";
     cin >> cedula;
     cout << "Clave: ";
     cin >> clave;
@@ -269,7 +269,7 @@ void menuCliente() {
         } while (opcion != 3);
 
     } catch (...) {
-        cerr << "Error en el menú de cliente" << endl;
+        cerr << "Error en el menu de cliente" << endl;
     }
 }
 
@@ -278,7 +278,7 @@ void sistemaBancario() {
 
     int opcion;
     do {
-        cout << "\n=== SISTEMA BANCARIO ===" << endl;
+        cout << "\nSISTEMA BANCARIO " << endl;
         cout << "1. Administrador" << endl;
         cout << "2. Cliente" << endl;
         cout << "3. Salir" << endl;

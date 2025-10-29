@@ -11,6 +11,7 @@ struct Usuario {
     double saldo;
 };
 
+// Funciones del sistema bancario
 double stringADouble(const char* str);
 void doubleAString(double valor, char* buffer, int tamBuffer);
 void cargarUsuarios();
